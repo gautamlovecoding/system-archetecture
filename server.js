@@ -129,7 +129,7 @@ process.on('SIGINT', () => {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
-  logger.error('Uncaught Exception:', error);
+  logger.error(`Uncaught Exception: ${error}`);
   process.exit(1);
 });
 
