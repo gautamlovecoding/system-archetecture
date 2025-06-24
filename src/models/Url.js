@@ -247,10 +247,10 @@ const urlSchema = new mongoose.Schema({
 });
 
 // Indexes for performance
-// Note: shortCode and shortUrl indexes are automatically created by unique: true
+urlSchema.index({ shortCode: 1 }, { unique: true });
 urlSchema.index({ originalUrl: 1 });
 urlSchema.index({ createdBy: 1 });
-// Note: customAlias index is automatically created by unique: true (sparse)
+urlSchema.index({ customAlias: 1 }, { sparse: true });
 urlSchema.index({ isActive: 1 });
 urlSchema.index({ expiresAt: 1 });
 urlSchema.index({ 'metadata.domain': 1 });

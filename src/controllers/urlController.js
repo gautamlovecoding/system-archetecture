@@ -5,7 +5,7 @@ const { logger } = require('../utils/logger');
 
 // Create short URL
 const createShortUrl = catchAsync(async (req, res) => {
-  const { originalUrl, customAlias, password, expiresAt, category, tags } = req.body;
+  const { originalUrl, customAlias, password, expiresAt, category, tags, domain, shortUrl, shortCode } = req.body;
   
   if (!originalUrl) {
     return sendErrorResponse(res, 400, 'Original URL is required');
@@ -29,7 +29,12 @@ const createShortUrl = catchAsync(async (req, res) => {
     customAlias: customAlias || null,
     password: password || null,
     category: category || 'other',
-    tags: tags || []
+    tags: tags || [],
+    metadata: {
+      domain: domain || null
+    },
+    shortUrl: shortUrl || null,
+    shortCode: shortCode || null
   };
   
   if (expiresAt) {
