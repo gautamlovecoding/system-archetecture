@@ -102,7 +102,7 @@ complaintSchema.index({ userId: 1, status: 1 });
 complaintSchema.index({ category: 1, status: 1 });
 complaintSchema.index({ priority: 1, status: 1 });
 complaintSchema.index({ assignedTo: 1, status: 1 });
-complaintSchema.index({ ticketId: 1 });
+// Note: ticketId index is automatically created by unique: true
 complaintSchema.index({ createdAt: -1 });
 
 // Static method to get user complaints

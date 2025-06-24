@@ -46,7 +46,7 @@ const bulkOperationSchema = new mongoose.Schema({
     default: 0
   },
   
-  errors: [{
+  errorList: [{
     row: Number,
     field: String,
     value: String,
@@ -110,7 +110,7 @@ bulkOperationSchema.methods.updateProgress = async function(processed, successfu
   this.progress = Math.round((processed / this.totalRecords) * 100);
   
   if (errors.length > 0) {
-    this.errors.push(...errors);
+    this.errorList.push(...errors);
   }
   
   return this.save();
@@ -128,7 +128,7 @@ bulkOperationSchema.methods.complete = async function() {
 bulkOperationSchema.methods.markAsFailed = async function(error) {
   this.status = 'failed';
   this.completedAt = new Date();
-  this.errors.push({
+  this.errorList.push({
     row: 0,
     error: error
   });

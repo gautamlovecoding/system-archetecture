@@ -270,7 +270,6 @@ fileSchema.index({ tags: 1 });
 fileSchema.index({ folder: 1 });
 fileSchema.index({ createdAt: -1 });
 fileSchema.index({ 'analytics.views': -1 });
-fileSchema.index({ shareToken: 1 }, { sparse: true });
 fileSchema.index({ isActive: 1, isDeleted: 1 });
 
 // Virtual for file extension

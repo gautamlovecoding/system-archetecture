@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const urlController = require('../controllers/urlController');
 const { authenticate, authorize, optionalAuth } = require('../middleware/auth');
-const { createRateLimiter } = require('../middleware/rateLimiter');
+const { createCustomRateLimit } = require('../middleware/rateLimiter');
 
 // Rate limiting
-const urlCreateLimiter = createRateLimiter('url-create', 10, 60 * 1000); // 10 URLs per minute
-const urlAccessLimiter = createRateLimiter('url-access', 100, 60 * 1000); // 100 accesses per minute
+const urlCreateLimiter = createCustomRateLimit(60 * 1000, 10, 'Too many URL creation requests'); // 10 URLs per minute
+const urlAccessLimiter = createCustomRateLimit(60 * 1000, 100, 'Too many URL access requests'); // 100 accesses per minute
 
 // Public routes
 router.get('/:code', urlAccessLimiter, urlController.redirectToOriginal);

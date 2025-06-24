@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const complaintController = require('../controllers/complaintController');
 const { authenticate, authorize } = require('../middleware/auth');
-const { createRateLimiter } = require('../middleware/rateLimiter');
+const { createCustomRateLimit } = require('../middleware/rateLimiter');
 
 // Rate limiting
-const complaintLimiter = createRateLimiter('complaint', 5, 60 * 1000); // 5 complaints per minute
+const complaintLimiter = createCustomRateLimit(60 * 1000, 5, 'Too many complaint requests'); // 5 complaints per minute
 
 // Complaint management
 router.post('/', authenticate, complaintLimiter, complaintController.createComplaint);

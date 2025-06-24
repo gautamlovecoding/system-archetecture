@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const chatController = require('../controllers/chatController');
 const { authenticate } = require('../middleware/auth');
-const { createRateLimiter } = require('../middleware/rateLimiter');
+const { createCustomRateLimit } = require('../middleware/rateLimiter');
 
 // Rate limiting
-const messageLimiter = createRateLimiter('message', 30, 60 * 1000); // 30 messages per minute
+const messageLimiter = createCustomRateLimit(60 * 1000, 30, 'Too many messages sent'); // 30 messages per minute
 
 // Message routes
 router.post('/send', authenticate, messageLimiter, chatController.sendMessage);

@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 const { authenticate, authorize } = require('../middleware/auth');
-const { createRateLimiter } = require('../middleware/rateLimiter');
+const { createCustomRateLimit } = require('../middleware/rateLimiter');
 
 // Rate limiting for auth endpoints
-const authLimiter = createRateLimiter('auth', 5, 15 * 60 * 1000); // 5 requests per 15 minutes
-const loginLimiter = createRateLimiter('login', 3, 15 * 60 * 1000); // 3 requests per 15 minutes
+const authLimiter = createCustomRateLimit(15 * 60 * 1000, 5, 'Too many auth requests, try again later'); // 5 requests per 15 minutes
+const loginLimiter = createCustomRateLimit(15 * 60 * 1000, 3, 'Too many login attempts, try again later'); // 3 requests per 15 minutes
 
 // Public routes
 router.post('/register', authLimiter, authController.register);

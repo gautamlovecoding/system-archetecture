@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const fileController = require('../controllers/fileController');
 const { authenticate, authorize, optionalAuth } = require('../middleware/auth');
-const { createRateLimiter } = require('../middleware/rateLimiter');
+const { createCustomRateLimit } = require('../middleware/rateLimiter');
 
 // Rate limiting
-const fileUploadLimiter = createRateLimiter('file-upload', 5, 60 * 1000); // 5 uploads per minute
+const fileUploadLimiter = createCustomRateLimit(60 * 1000, 5, 'Too many file upload requests'); // 5 uploads per minute
 
 // File upload routes
 router.post('/upload', authenticate, fileUploadLimiter, fileController.upload.single('file'), fileController.uploadFile);

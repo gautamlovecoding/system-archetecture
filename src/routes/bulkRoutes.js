@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bulkController = require('../controllers/bulkController');
 const { authenticate, authorize } = require('../middleware/auth');
-const { createRateLimiter } = require('../middleware/rateLimiter');
+const { createCustomRateLimit } = require('../middleware/rateLimiter');
 
 // Rate limiting
-const bulkLimiter = createRateLimiter('bulk', 2, 60 * 1000); // 2 bulk operations per minute
+const bulkLimiter = createCustomRateLimit(60 * 1000, 2, 'Too many bulk operation requests'); // 2 bulk operations per minute
 
 // Bulk operations
 router.post('/import', authenticate, bulkLimiter, bulkController.upload.single('file'), bulkController.startBulkImport);

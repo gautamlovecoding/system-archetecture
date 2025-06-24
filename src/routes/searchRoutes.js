@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const searchController = require('../controllers/searchController');
 const { authenticate, optionalAuth } = require('../middleware/auth');
-const { createRateLimiter } = require('../middleware/rateLimiter');
+const { createCustomRateLimit } = require('../middleware/rateLimiter');
 
 // Rate limiting
-const searchLimiter = createRateLimiter('search', 20, 60 * 1000); // 20 searches per minute
+const searchLimiter = createCustomRateLimit(60 * 1000, 20, 'Too many search requests'); // 20 searches per minute
 
 // Search routes
 router.get('/', optionalAuth, searchLimiter, searchController.universalSearch);

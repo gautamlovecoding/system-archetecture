@@ -145,7 +145,7 @@ const processBulkOperation = async (bulkOp) => {
     
     // Final update and completion
     bulkOp.results = results;
-    bulkOp.errors = errors;
+    bulkOp.errorList = errors;
     await bulkOp.updateProgress(rowCount, successCount, failureCount, []);
     await bulkOp.complete();
     

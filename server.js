@@ -12,7 +12,7 @@ const { logger } = require('./src/utils/logger');
 const { connectDatabase } = require('./src/config/database');
 const { setupRedis } = require('./src/config/redis');
 const { globalRateLimit } = require('./src/middleware/rateLimiter');
-const errorHandler = require('./src/middleware/errorHandler');
+const { globalErrorHandler } = require('./src/middleware/errorHandler');
 
 // Import all routes
 const authRoutes = require('./src/routes/authRoutes');
@@ -76,7 +76,7 @@ app.use('/api/monitoring', monitoringRoutes);
 require('./src/services/socketService')(io);
 
 // Error handling middleware (must be last)
-app.use(errorHandler);
+app.use(globalErrorHandler);
 
 // 404 handler
 app.use('*', (req, res) => {
